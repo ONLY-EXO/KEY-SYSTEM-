@@ -1,0 +1,272 @@
+-- ⚠️ IMPORTANT: Put this code at the VERY TOP of your Main Script (before obfuscating) ⚠️
+
+local ProtectionConfig = {
+    -- 🔴 CRITICAL: This MUST exactly match the 'Secret' value in your Key System's Config!
+    -- If your Key System has: Secret = "Test"
+    -- Then this must also be: SecretKey = "Test"
+    SecretKey = "ONLY_EXOTIC ",
+    
+    -- The name of your Hub (shown in the kick message if they try to bypass)
+    HubName = "ONLY EXOTIC HUB "
+}
+
+-- Anti-Bypass Logic: Checks if the Key System successfully set the global variable
+if not _G[ProtectionConfig.SecretKey] then
+    local player = game:GetService("Players").LocalPlayer
+    if player then
+        player:Kick("\n🛡️ Unauthorized Execution 🛡️\n\nPlease use the official Key System to run " .. ProtectionConfig.HubName)
+    end
+    return -- Stops the rest of the script from loading!
+end
+
+-------------------------------------------------------------------------------
+-- 👇 YOUR MAIN SCRIPT CODE STARTS HERE 👇
+-------------------------------------------------------------------------------
+
+print(ProtectionConfig.HubName .. " Loaded Successfully!")
+
+
+Local Players = game:GetService("Players")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local LP = Players.LocalPlayer
+local hui = gethui and gethui() or game:GetService("CoreGui")
+if hui:FindFirstChild("ONLY_EXOTIC_HUB") then hui.ONLY_EXOTIC_HUB:Destroy() end
+
+local Gui = Instance.new("ScreenGui")
+Gui.Name = "ONLY_EXOTIC_HUB"
+Gui.ResetOnSpawn = false
+Gui.IgnoreGuiInset = true
+Gui.Parent = hui
+
+local OpenBtn = Instance.new("ImageButton", Gui)
+OpenBtn.Name = "OpenBtn"
+OpenBtn.Size = UDim2.fromOffset(45,45)
+OpenBtn.Position = UDim2.new(0,15,0.5,-22)
+OpenBtn.BackgroundColor3 = Color3.fromRGB(10,10,12)
+OpenBtn.Image = "rbxassetid://111331179075915"
+OpenBtn.Visible = false
+OpenBtn.Draggable = true
+Instance.new("UICorner", OpenBtn).CornerRadius = UDim.new(1,0)
+local s1 = Instance.new("UIStroke", OpenBtn)
+s1.Color = Color3.fromRGB(140,0,255)
+s1.Thickness = 1.5
+
+local Main = Instance.new("Frame", Gui)
+Main.Size = UDim2.new(0,240,0,270)
+Main.Position = UDim2.new(0.5,-120,0.5,-135)
+Main.BackgroundColor3 = Color3.fromRGB(10,10,12)
+Main.BackgroundTransparency = 0.2
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0,10)
+local s2 = Instance.new("UIStroke", Main)
+s2.Color = Color3.fromRGB(140,0,255)
+s2.Thickness = 1.5
+
+local Title = Instance.new("TextLabel", Main)
+Title.Size = UDim2.new(1,-50,0,20)
+Title.Position = UDim2.new(0,45,0,6)
+Title.BackgroundTransparency = 1
+Title.Text = "ONLY_EXOTIC HUB"
+Title.TextColor3 = Color3.fromRGB(160,80,255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 14
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local sub = Instance.new("TextLabel", Main)
+sub.Size = UDim2.new(1,-50,0,14)
+sub.Position = UDim2.new(0,45,0,20)
+sub.BackgroundTransparency = 1
+sub.Text = "discord.gg/6pCsSbVd3E"
+sub.TextColor3 = Color3.fromRGB(180,180,180)
+sub.Font = Enum.Font.Gotham
+sub.TextSize = 10
+sub.TextXAlignment = Enum.TextXAlignment.Left
+
+local minBtn = Instance.new("TextButton", Main)
+minBtn.Size = UDim2.new(0,22,0,22)
+minBtn.Position = UDim2.new(1,-52,0,6)
+minBtn.BackgroundColor3 = Color3.fromRGB(25,20,30)
+minBtn.Text = "_"
+minBtn.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", minBtn)
+
+local closeBtn = Instance.new("TextButton", Main)
+closeBtn.Size = UDim2.new(0,22,0,22)
+closeBtn.Position = UDim2.new(1,-26,0,6)
+closeBtn.BackgroundColor3 = Color3.fromRGB(180,20,90)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", closeBtn)
+
+minBtn.MouseButton1Click:Connect(function()
+    Main.Visible = false
+    OpenBtn.Visible = true
+end)
+
+OpenBtn.MouseButton1Click:Connect(function()
+    Main.Visible = true
+    OpenBtn.Visible = false
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    Gui:Destroy()
+end)
+
+local tabMainBtn = Instance.new("TextButton", Main)
+tabMainBtn.Size = UDim2.new(0.5,-12,0,22)
+tabMainBtn.Position = UDim2.new(0,8,0,38)
+tabMainBtn.BackgroundColor3 = Color3.fromRGB(140,0,255)
+tabMainBtn.Text = "Main"
+tabMainBtn.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", tabMainBtn)
+
+local tabMiscBtn = Instance.new("TextButton", Main)
+tabMiscBtn.Size = UDim2.new(0.5,-12,0,22)
+tabMiscBtn.Position = UDim2.new(0.5,4,0,38)
+tabMiscBtn.BackgroundColor3 = Color3.fromRGB(25,20,20)
+tabMiscBtn.Text = "Misc"
+Instance.new("UICorner", tabMiscBtn)
+
+local MainTab = Instance.new("Frame", Main)
+MainTab.Size = UDim2.new(1,0,1,-68)
+MainTab.Position = UDim2.new(0,0,0,66)
+MainTab.BackgroundTransparency = 1
+
+local MiscTab = Instance.new("Frame", Main)
+MiscTab.Size = UDim2.new(1,0,1,-68)
+MiscTab.Position = UDim2.new(0,0,0,66)
+MiscTab.BackgroundTransparency = 1
+MiscTab.Visible = false
+
+tabMainBtn.MouseButton1Click:Connect(function()
+    MainTab.Visible = true
+    MiscTab.Visible = false
+    tabMainBtn.BackgroundColor3 = Color3.fromRGB(140,0,255)
+    tabMiscBtn.BackgroundColor3 = Color3.fromRGB(25,20,20)
+end)
+
+tabMiscBtn.MouseButton1Click:Connect(function()
+    MainTab.Visible = false
+    MiscTab.Visible = true
+    tabMiscBtn.BackgroundColor3 = Color3.fromRGB(140,0,255)
+    tabMainBtn.BackgroundColor3 = Color3.fromRGB(25,20,20)
+end)
+
+local function createBtn(parent, text, pos)
+    local b = Instance.new("TextButton", parent)
+    b.Size = UDim2.new(1,-20,0,32)
+    b.Position = UDim2.new(0,10,0,pos)
+    b.BackgroundColor3 = Color3.fromRGB(30,20,30)
+    b.Text = text
+    b.TextColor3 = Color3.new(1,1,1)
+    b.Font = Enum.Font.GothamSemibold
+    b.TextSize = 12
+    Instance.new("UICorner", b).CornerRadius = UDim.new(0,6)
+    return b
+end
+
+local antiHit = false
+local instantGrab = false
+local holdJump = false
+local antiRagdoll = false
+
+local AntiHitBtn = createBtn(MainTab, "Anti-Hit: OFF", 6)
+local InstantGrabBtn = createBtn(MainTab, "Instant Grab: OFF", 44)
+local HoldJumpBtn = createBtn(MainTab, "Hold Jump: OFF", 82)
+local AntiRagdollBtn = createBtn(MainTab, "Anti-Ragdoll: OFF", 120)
+local StealBtn = createBtn(MainTab, "Steal [E]", 158)
+
+AntiHitBtn.MouseButton1Click:Connect(function()
+    antiHit = not antiHit
+    AntiHitBtn.Text = antiHit and "Anti-Hit: ON" or "Anti-Hit: OFF"
+    AntiHitBtn.BackgroundColor3 = antiHit and Color3.fromRGB(140,0,255) or Color3.fromRGB(30,20,30)
+end)
+
+RunService.Stepped:Connect(function()
+    if antiHit and LP.Character then
+        for _,v in pairs(LP.Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+
+InstantGrabBtn.MouseButton1Click:Connect(function()
+    instantGrab = true
+    InstantGrabBtn.Text = "Instant Grab: ON"
+    InstantGrabBtn.BackgroundColor3 = Color3.fromRGB(140,0,255)
+
+    workspace.DescendantAdded:Connect(function(v)
+        if v:IsA("ProximityPrompt") then
+            v.HoldDuration = 0
+        end
+    end)
+
+    for _,v in ipairs(workspace:GetDescendants()) do
+        if v:IsA("ProximityPrompt") then
+            v.HoldDuration = 0
+        end
+    end
+end)
+
+HoldJumpBtn.MouseButton1Click:Connect(function()
+    holdJump = not holdJump
+    HoldJumpBtn.Text = holdJump and "Hold Jump: ON" or "Hold Jump: OFF"
+    HoldJumpBtn.BackgroundColor3 = holdJump and Color3.fromRGB(140,0,255) or Color3.fromRGB(30,20,30)
+end)
+
+UserInputService.JumpRequest:Connect(function()
+    if holdJump and LP.Character then
+        local h = LP.Character:FindFirstChildOfClass("Humanoid")
+        if h then
+            h:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+local function setupHumanoid(h)
+    if not h then return end
+    h:SetStateEnabled(Enum.HumanoidStateType.Ragdoll, false)
+    h:SetStateEnabled(Enum.HumanoidStateType.FallingDown, false)
+end
+
+AntiRagdollBtn.MouseButton1Click:Connect(function()
+    antiRagdoll = true
+    AntiRagdollBtn.Text = "Anti-Ragdoll: ON"
+    AntiRagdollBtn.BackgroundColor3 = Color3.fromRGB(140,0,255)
+
+    if LP.Character then
+        setupHumanoid(LP.Character:FindFirstChildOfClass("Humanoid"))
+    end
+end)
+
+LP.CharacterAdded:Connect(function(c)
+    task.wait(0.5)
+    if antiRagdoll then
+        setupHumanoid(c:FindFirstChildOfClass("Humanoid"))
+    end
+end)
+
+RunService.Heartbeat:Connect(function()
+    if antiRagdoll and LP.Character then
+        local h = LP.Character:FindFirstChildOfClass("Humanoid")
+        if h and h:GetState() == Enum.HumanoidStateType.Ragdoll then
+            h:ChangeState(Enum.HumanoidStateType.GettingUp)
+        end
+    end
+end)
+
+StealBtn.MouseButton1Click:Connect(function()
+    for _,v in ipairs(workspace:GetDescendants()) do
+        if v:IsA("ProximityPrompt") and v.Enabled then
+            if LP:DistanceFromCharacter(v.Parent:GetPivot().Position) < 25 then
+                fireproximityprompt(v)
+            end
+        end
+    end
+end)
