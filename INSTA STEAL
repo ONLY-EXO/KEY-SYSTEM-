@@ -1,0 +1,24 @@
+--[[
+    ================================================================
+    [ SCRIPT PROTECTED BY OYB BUILDER ]
+    ================================================================
+]]
+
+local ProtectionConfig = {
+    SecretKey = "ONLY_EXOTIC",
+    HubName = "ONLY_EXOTIC HUB"
+}
+
+if not _G[ProtectionConfig.SecretKey] then
+    local player = game:GetService("Players").LocalPlayer
+    if player then
+        player:Kick("\n🛡️ Unauthorized Execution 🛡️️\n\nPlease use the official Key System to run " .. ProtectionConfig.HubName)
+    end
+    return 
+end
+
+-------------------------------------------------------------------------------
+-- 👇 YOUR MAIN SCRIPT CODE STARTS HERE 👇
+-------------------------------------------------------------------------------
+
+loadstring(game:HttpGet("https://gist.githubusercontent.com/sourceshubs/1737c14cdba5c6fb472a995d555a50f1/raw/SourcesHubInstantStealNew"))()
